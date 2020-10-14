@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <title>나만의 원페이지 쇼핑몰</title>
+    <style>
+        * {
+            font-family: 'Sunflower', sans-serif;
+        }
+
+        .wrap {
+            margin: 10px auto;
+            width: 700px;
+            padding: 30px;
+        }
+
+        .title {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .picture {
+            margin: 10px auto;
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn {
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /*.input-group-text {*/
+        /*    width: 100px;*/
+        /*}*/
+
+        /*.form-control {*/
+        /*    width: 200px;*/
+        /*}*/
+
+        .temp_div {
+            /*width: auto;*/
+            /* jokim
+                감싸는 용도로 정의하셨던 바깥의 div는
+                width auto 가 아니라 구체적인 사이즈를 잡아주는 것이 좋습니다.
+            */
+
+            width: 500px;
+            /*margin: 0 auto;*/
+            /* jokim
+                margin auto 를 해주신 것은 좋지만, 문제에는 없어서 우선 없앴습니다.
+
+            */
+
+        }
+
+        /*
+        #orderName {
+            width: 500px;
+        }
+
+        #exampleFormControlSelect1 {
+            width: 500px;
+        }
+
+        #adr {
+            width: 500px;
+        }
+
+        #tel {
+            width: 500px;
+        }
+        */
+        /* jokim
+        우선 ID로 정의한 것을 주석처리할게요 !
+        여기가 주석처리 되어 있으면 HTML 내의 값은 굳이 삭제하지 않아도 동작은 하지만 나중을 위해 지우는게 편리합니다.
+        */
+
+    </style>
+
+    <script>
+        function buy() {
+            alert('주문이 완료되었습니다.');
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="wrap">
+    <div class="picture">
+        <img src="https://image.hanssem.com/hsimg/gds/368/614/614126_A1.jpg">
+    </div>
+
+
+    <a class="title">상품 제목 <span style="font-size: 13px">가격: 35,000원 / 개</span></a>
+    <!-- jokim
+        <a> tag 는 하이퍼링크 즉, 밑줄이 생기게하고 그 글을 클릭 시 타 사이트(URL)로 이동하게 합니다.
+        <a> tag 가 아닌 h1 등의 태그를 이용하시면 더 좋습니다.
+        span tag 는 잘 이용하셨지만,
+        a가 아닌, h1 태그를 사용하고 그 안에 있는 "가격 파트"를 span 내에서 class 를 지정해서 글씨 크기를 낮추는게 더 좋습니다.
+    -->
+    <br>
+    <a>
+        할로겐 전구의 열을 이용해 캔들을 녹여 힘을 발산하는 켄들전용 워머입니다.<br>
+        간편하게 사용가능 하며, 초에 불을 켜지 않고 안전하게 사용할 수 있습니다.<br>
+        전기방식의 워머로 은은한 향을 즐길 수 있을 뿐만 아니라, 인테리어 조명으로 활용 가능합니다.<br>
+
+        <span style="color: red">※워머와 함께 캔들 사용 시 열에 의해 심지가 기울어 질 수 있습니다.</span>
+    </a>
+    <!-- jokim
+    여기서도 a 태그 대신에 span 혹은 p 태그를 사용하시면 더 용도에 적합하게 사용할 수 있습니다. -->
+    <br><br>
+
+
+    <a class="title">주문하기</a>
+<!--    <form class="form-inline">-->
+    <!-- jokim
+        form-inline 이라는 클래스를 위에 정의하셨길래, 상관없다고 생각했는데
+        css 가 너무 꼬여서 부트스트랩 css 를 들여다보니까 거기에 form-inline 가 정의되어 있었습니다.
+
+        부트스트랩에 있는 클래스명은 추가로 수정하지 않는 것이 좋습니다.
+        필요한 것이 있으면 새로운 클래스명으로 정의하시면 더 좋습니다. !
+
+        아마, 부스트스랩에서 html 을 가져올 때 form 형식이 있는 것을 복사해 오시다가 생긴문제 같고
+        중앙 정렬 등을 고민하다가 수정해보신 것 같아요 !
+    -->
+    <div class="temp_div">
+        <!-- jokim
+        별 것은 아니지만 지난 수업 과정 상 form 은 -> div 로 변경하면 더 좋습니다. -->
+        <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-text">주문자 이름</div>
+            <input type="text" class="form-control" id="orderName">
+        </div>
+<!--        <br>-->
+        <!-- jokim
+            br 삭제
+        -->
+        <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-text">수량</div>
+            <select class="form-control" id="exampleFormControlSelect1">
+                <option>-- 수량을 선택하세요 --</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+
+        <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-text">주 소</div>
+            <input type="text" class="form-control" id="adr">
+        </div>
+
+        <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-text">전화번호</div>
+            <input type="text" class="form-control" id="tel">
+        </div>
+
+    </div>
+    <div class="btn">
+        <a onclick="buy()" class="btn btn-primary" href="#" role="button">주문하기</a>
+    </div>
+</form>
+
+
+</body>
+</html>
