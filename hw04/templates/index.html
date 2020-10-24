@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+        <title>나만의 원페이지 쇼핑몰</title>
+        <style>
+            * {
+                font-family: 'Sunflower', sans-serif;
+            }
+
+            .wrap {
+                margin: 10px auto;
+                width: 700px;
+                padding: 30px;
+            }
+
+            .title {
+                font-size: 35px;
+                font-weight: bold;
+            }
+
+            .picture {
+                margin: 10px auto;
+                width: 400px;
+                height: 400px;
+            }
+
+            .btn {
+                display: table;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .temp_div {
+
+                width: 500px;
+
+            }
+
+            #dollar {
+                color: blue;
+            }
+
+        </style>
+
+        <script>
+
+            $(document).ready(function () {
+                orderList();
+                $.ajax({
+                    type: "GET",
+                    url: "https://api.manana.kr/exchange/rate.json",
+                    data: {},
+                    success: function (response) {
+                        let dollar = response[1]["rate"];
+                        $("#dollar").append("달러-원 환율 : " + dollar);
+                    }
+                })
+            });
+
+            function orderList(){
+                $.ajax({
+                    type: "GET",
+                    url: "/order",
+                    data: {},
+                    success: function (response) {
+                        if (response["result"] == "success") {
+
+                            let orderList = response["data"]
+
+                            for ( let i = 0 ; i < orderList.length; i++){
+                                let name = orderList[i]["name"]
+                                let num = orderList[i]["num"]
+                                let adr = orderList[i]["adr"]
+                                let tel = orderList[i]["tel"]
+
+                                let tempHtml = `<tr>
+                                                    <td>${name}</td>
+                                                    <td>${num}</td>
+                                                    <td>${adr}</td>
+                                                    <td>${tel}</td>
+                                                </tr>`
+                                $("#orderList").append(tempHtml);
+                            }
+
+
+                        } else {
+                            alert("주문내역을 받아오지 못했습니다");
+                        }
+                    }
+                })
+            }
+
+            function buy() {
+
+                let chkName = $('#orderName').val().replace(/ /gi, "");
+                let chkNum = $('#exampleFormControlSelect1').val();
+                let chkAdr = $('#adr').val().replace(/ /gi, "");
+                let chkTel = $('#tel').val().replace(/ /gi, "");
+
+                if (chkName == "") {
+                    alert("이름을 입력해 주세요.");
+                } else if (chkNum == "-- 수량을 선택하세요 --") {
+                    alert("수량을 선택해 주세요.");
+                } else if (chkAdr == "") {
+                    alert("주소를 입력해 주세요.");
+                } else if (chkTel == "") {
+                    alert("핸드폰 번호를 입력해 주세요.");
+                } else if (chkTel.length != 13 || chkTel.split('-')[0] != "010" || chkTel.substring(3, 4) != "-" || chkTel.substring(8, 9) != "-") {
+                    alert("휴대폰 입력 방식이 틀립니다.\n 010-0000-0000으로 입력해주세요.");
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/order",
+                        data: {"postName": chkName, "postNum": chkNum, "postAdr": chkAdr, "postTel": chkTel},
+                        success: function (response) {
+                            if (response["result"] == "success") {
+                                alert(response["msg"]);
+                                window.location.reload();
+                            }
+                        }
+                    })
+                }
+
+            }
+
+        </script>
+
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="picture">
+                <img src="https://image.hanssem.com/hsimg/gds/368/614/614126_A1.jpg">
+            </div>
+
+            <a class="title">상품 제목 <span style="font-size: 13px">가격: 35,000원 / 개</span></a>
+
+            <br>
+            <a>
+                할로겐 전구의 열을 이용해 캔들을 녹여 힘을 발산하는 켄들전용 워머입니다.<br>
+                간편하게 사용가능 하며, 초에 불을 켜지 않고 안전하게 사용할 수 있습니다.<br>
+                전기방식의 워머로 은은한 향을 즐길 수 있을 뿐만 아니라, 인테리어 조명으로 활용 가능합니다.<br>
+
+                <span style="color: red">※워머와 함께 캔들 사용 시 열에 의해 심지가 기울어 질 수 있습니다.</span>
+            </a>
+
+            <br><br>
+
+            <span id="dollar"></span>
+
+            <div class="temp_div">
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-text">주문자 이름</div>
+                    <input type="text" class="form-control" id="orderName">
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-text">수량</div>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>-- 수량을 선택하세요 --</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-text">주 소</div>
+                    <input type="text" class="form-control" id="adr">
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-text">전화번호</div>
+                    <input type="text" class="form-control" id="tel">
+                </div>
+
+            </div>
+            <div class="btn">
+                <a onclick="buy()" class="btn btn-primary" href="#" role="button">주문하기</a>
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">이름</th>
+                        <th scope="col">수량</th>
+                        <th scope="col">주소</th>
+                        <th scope="col">전화번호</th>
+                    </tr>
+                    </thead>
+                    <tbody id="orderList">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </body>
+</html>
